@@ -16,20 +16,20 @@ def split_bdw(bdw):
 ##################      Init Var      ##################
 
 
-LTE_UEs = [user.UEs]*config.N_users_LTE_max
-NR_UEs = [user.UEs]*config.N_users_5g_max
+LTE_UEs = [user.UEs]*config.N_users_LTE_max # Array of LTE UEs
+NR_UEs = [user.UEs]*config.N_users_5g_max   # Array of 5G UEs
 
 for i in range(len(LTE_UEs)):
-    LTE_UEs[i] = user.UEs(0)
+    LTE_UEs[i] = user.UEs(0)    # Init each element
 
 for i in range(len(NR_UEs)):
-    NR_UEs[i] = user.UEs(1) 
+    NR_UEs[i] = user.UEs(1) # Init each element
 
 
 cur_UE_lte = config.N_users_5g_min
 cur_UE_5g = config.N_users_5g_min
-rb_need_5g = 0
-rb_need_lte = 0
+rb_need_5g = [0]*config.nmbr_samples    # Rbs that are needed at a given instant by the lte UEs
+rb_need_lte = [0]*config.nmbr_samples   # Rbs that are needed at a given instant by the 5G UEs
 
 
 ##################      Initial Bandwidth      ##################
@@ -37,8 +37,8 @@ rb_need_lte = 0
 
 bdw_enb = split_bdw(config.bandwidth)
 bdw_gnb = split_bdw(config.bandwidth)
-RB_av_enb = enb.eNB(bdw_enb)
-RB_av_gnb = gnb.gNB(bdw_gnb,config.numerology)
+RB_av_enb = enb.eNB(bdw_enb)    # Array of RBs available in the eNB
+RB_av_gnb = gnb.gNB(bdw_gnb,config.numerology)  # Array of RBs available in the gNB
 
 
 ##################      Generating Traffic      ##################
@@ -71,6 +71,7 @@ for i in range(config.nmbr_samples):
 
 
 ##################      Debug      ##################
+
 
 """
 print(np.size(RB_av_gnb.RB_av))
