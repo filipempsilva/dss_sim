@@ -37,11 +37,11 @@ class UEs:
         self.type = type
 
         if(type==0):
-            print("Created ",config.N_users_LTE_max," LTE UEs")
-            self.traffic = np.zeros((config.N_users_LTE_max,config.nmbr_samples))   # LTE traffic Matrix m*n, where m=lte_users and n=number of samples
+            print("Created an LTE user")
+            self.traffic = np.zeros(config.nmbr_samples)   # LTE traffic array, for a given lte user
         elif(type==1):
-            print("Created ",config.N_users_5g_max," NR UEs")
-            self.traffic = np.zeros((config.N_users_5g_max,config.nmbr_samples))    # 5G traffic Matrix m*n, where m=5G_users and n=number of samples
+            print("Created an 5G user")
+            self.traffic = np.zeros(config.nmbr_samples)    # 5G traffic array, for a given nr user
         else:
             print("Invalid Type, returning -1")
             self.traffic = -1
