@@ -5,6 +5,7 @@
 
 tti = 1 # smallest time granularity (1ms)
 sim_time = 30000  # 30s simulation time 
+step = 1    # 1 ms step in sim
 nmbr_samples = int(sim_time/tti)
 numerology = 0
 

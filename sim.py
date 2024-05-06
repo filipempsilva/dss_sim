@@ -16,6 +16,8 @@ def split_bdw(bdw):
 ##################      Init Var      ##################
 
 
+time = np.arange(0,config.nmbr_samples,config.step)
+
 LTE_UEs = [user.UEs]*config.N_users_LTE_max # Array of LTE UEs
 NR_UEs = [user.UEs]*config.N_users_5g_max   # Array of 5G UEs
 
@@ -26,7 +28,7 @@ for i in range(len(NR_UEs)):
     NR_UEs[i] = user.UEs(1)     # Init each element of the array
 
 
-cur_UE_lte = config.N_users_5g_min  # Starting and Current number of LTE UEs
+cur_UE_lte = config.N_users_LTE_min  # Starting and Current number of LTE UEs
 cur_UE_5g = config.N_users_5g_min   # Starting and Current number of 5G UEs
 rb_need_5g = [0]*config.nmbr_samples    # Rbs that are needed at a given instant by the lte UEs
 rb_need_lte = [0]*config.nmbr_samples   # Rbs that are needed at a given instant by the 5G UEs
@@ -79,15 +81,27 @@ for i in range(config.nmbr_samples):
 
     RB_av_enb.RB_av[i] = RB_av_enb.RB_av[i] - rb_need_lte[i]
     RB_av_gnb.RB_av[i] = RB_av_gnb.RB_av[i] - rb_need_5g[i]
+
     with open("logs.txt", "a") as log:
         print("t=",i, file=log)
         print(RB_av_enb.RB_av[i]," || ",rb_need_lte[i], file=log)
         print(RB_av_gnb.RB_av[i]," || ",rb_need_5g[i],"\n", file=log)
 
-    print("t=",i)
-    print(RB_av_enb.RB_av[i]," || ",rb_need_lte[i])
-    print(RB_av_gnb.RB_av[i]," || ",rb_need_5g[i],"\n")
+    #print("t=",i)
+    #print(RB_av_enb.RB_av[i]," || ",rb_need_lte[i])
+    #print(RB_av_gnb.RB_av[i]," || ",rb_need_5g[i],"\n")
     
+
+##################       Plots to visualize data      ##################
+
+
+plt.title("Time Vs Available RBs eNB")
+plt.plot(time, RB_av_enb.RB_av)
+plt.plot(time, RB_av_gnb.RB_av)
+
+plt.legend(["RBs Available in eNB", "RBs Available in gNB"])
+plt.savefig('RBs_av_OT.png',bbox_inches='tight')
+plt.show()
 
 ##################      Debug      ##################
 
