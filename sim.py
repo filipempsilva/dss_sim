@@ -20,17 +20,16 @@ LTE_UEs = [user.UEs]*config.N_users_LTE_max # Array of LTE UEs
 NR_UEs = [user.UEs]*config.N_users_5g_max   # Array of 5G UEs
 
 for i in range(len(LTE_UEs)):
-    LTE_UEs[i] = user.UEs(0)    # Init each element
+    LTE_UEs[i] = user.UEs(0)    # Init each element of the array
 
 for i in range(len(NR_UEs)):
-    NR_UEs[i] = user.UEs(1) # Init each element
+    NR_UEs[i] = user.UEs(1)     # Init each element of the array
 
 
-cur_UE_lte = config.N_users_5g_min
-cur_UE_5g = config.N_users_5g_min
+cur_UE_lte = config.N_users_5g_min  # Starting and Current number of LTE UEs
+cur_UE_5g = config.N_users_5g_min   # Starting and Current number of 5G UEs
 rb_need_5g = [0]*config.nmbr_samples    # Rbs that are needed at a given instant by the lte UEs
 rb_need_lte = [0]*config.nmbr_samples   # Rbs that are needed at a given instant by the 5G UEs
-
 
 ##################      Initial Bandwidth      ##################
 
@@ -57,6 +56,9 @@ for i in range(len(NR_UEs)):    # loops 5g users
 ##################       Assignment of RBs      ##################
 
 
+open('logs.txt', 'w').close()   # Cleaning log file before assignment loop
+
+
 for i in range(config.nmbr_samples):
     if(i==8000):
         cur_UE_lte = cur_UE_lte+1       # Adding users at different timestamps. 
@@ -69,6 +71,23 @@ for i in range(config.nmbr_samples):
     if(i==24000):
         cur_UE_5g = cur_UE_5g+1
 
+    for k in range(cur_UE_lte):
+        rb_need_lte[i] = rb_need_lte[i] + LTE_UEs[k].traffic[i] # Rbs needed to fufil the LTE_UEs traffic at a given time 
+
+    for k in range(cur_UE_5g):
+        rb_need_5g[i] = rb_need_5g[i] + NR_UEs[k].traffic[i]    # Rbs needed to fufil the NR_UEs traffic at a given time 
+
+    RB_av_enb.RB_av[i] = RB_av_enb.RB_av[i] - rb_need_lte[i]
+    RB_av_gnb.RB_av[i] = RB_av_gnb.RB_av[i] - rb_need_5g[i]
+    with open("logs.txt", "a") as log:
+        print("t=",i, file=log)
+        print(RB_av_enb.RB_av[i]," || ",rb_need_lte[i], file=log)
+        print(RB_av_gnb.RB_av[i]," || ",rb_need_5g[i],"\n", file=log)
+
+    print("t=",i)
+    print(RB_av_enb.RB_av[i]," || ",rb_need_lte[i])
+    print(RB_av_gnb.RB_av[i]," || ",rb_need_5g[i],"\n")
+    
 
 ##################      Debug      ##################
 

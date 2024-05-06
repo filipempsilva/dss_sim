@@ -37,10 +37,10 @@ class UEs:
         self.type = type
 
         if(type==0):
-            print("Created an LTE user")
+            print("Created a LTE user")
             self.traffic = np.zeros(config.nmbr_samples)   # LTE traffic array, for a given lte user
         elif(type==1):
-            print("Created an 5G user")
+            print("Created a 5G user")
             self.traffic = np.zeros(config.nmbr_samples)    # 5G traffic array, for a given nr user
         else:
             print("Invalid Type, returning -1")
