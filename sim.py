@@ -95,14 +95,14 @@ for i in range(config.nmbr_samples):
 ##################       Plots to visualize data      ##################
 
 
-plt.title("Time Vs Available RBs eNB")
+""" plt.title("Time Vs Available RBs eNB")
 plt.plot(time, RB_av_enb.RB_av)
 plt.plot(time, RB_av_gnb.RB_av)
 
 plt.legend(["RBs Available in eNB", "RBs Available in gNB"])
 plt.savefig('RBs_av_OT.png',bbox_inches='tight')
 plt.show()
-
+print("Hey") """
 ##################      Debug      ##################
 
 
