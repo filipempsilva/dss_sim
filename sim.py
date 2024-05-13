@@ -5,6 +5,7 @@ import enb
 import user
 import matplotlib.pyplot as plt
 import config
+from operator import attrgetter
 
 
 
@@ -67,6 +68,10 @@ with open("logs.txt", "a") as log:
 
 
 for i in range(config.nmbr_samples):
+
+    LTE_UEs = sorted(LTE_UEs, key=attrgetter('prio', 'ueid'))       # Sorting list of LTE_Ues based on priority and id, respectively
+    NR_UEs = sorted(NR_UEs, key=attrgetter('prio', 'ueid'))     # Sorting list of NR_Ues based on priority and id, respectively
+
     if(i==8000):
         cur_UE_lte = cur_UE_lte+1       # Adding users at different timestamps. 
     if(i==10000):                       # t=8s; t=10; t=15; t=18; t=24. 
