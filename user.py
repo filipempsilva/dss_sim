@@ -33,15 +33,16 @@ TBStable= [[16,32,56,88,120,152,176,208,224,256,288,328,344,376,392,424,456,488,
 
 class UEs:
 
-    def __init__(self,type,id):
+    def __init__(self,type,id,priority):
         self.type = type
         self.ueid = id
+        self.prio = priority    #   Available priorities in order (least to most): 5, 4, 3, 2, 1.
 
         if(type==0):
-            print("Created a LTE user")
+            print("Created a LTE user with priority: ",self.prio)
             self.traffic = np.zeros(config.nmbr_samples)   # LTE traffic array, for a given lte user
         elif(type==1):
-            print("Created a 5G user")
+            print("Created a 5G user with priority: ",self.prio)
             self.traffic = np.zeros(config.nmbr_samples)    # 5G traffic array, for a given nr user
         else:
             print("Invalid Type, returning -1")

@@ -16,3 +16,4 @@ N_users_5g_min = 3
 N_users_5g_max = 6
 mcs_lte = 24
 mcs_5g = 26
+priority_default = 5
